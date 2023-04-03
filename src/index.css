@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    @apply font-poppins leading-6 h-full;
+}
+
+#root, body {
+    @apply h-full;
+}
