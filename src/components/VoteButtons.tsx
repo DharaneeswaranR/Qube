@@ -1,4 +1,4 @@
-import { arrayRemove, arrayUnion, doc, updateDoc } from "firebase/firestore"
+import { arrayRemove, arrayUnion, collection, doc, updateDoc } from "firebase/firestore"
 import { auth, db } from "../firebase/firebase"
 import { ArrowDownIcon, ArrowUpIcon } from "@heroicons/react/20/solid"
 import { useEffect, useState } from "react"
@@ -6,7 +6,8 @@ import { useEffect, useState } from "react"
 type Vote = 'upvote' | 'downvote'
 
 interface VoteProps {
-    postId: string,
+    id: string,
+    collection: "posts" | "answers"
     upVotesUsers: string[]
     downVotesUsers: string[]
 }
@@ -25,7 +26,7 @@ export default function VoteButtons(props: VoteProps) {
 
     async function handleClick(type: Vote) {
         const userId = auth.currentUser?.uid
-        const postRef = doc(db, 'posts', props.postId)
+        const postRef = doc(db, props.collection, props.id)
 
         if (type === 'upvote') {
             await updateDoc(postRef, {
@@ -39,7 +40,7 @@ export default function VoteButtons(props: VoteProps) {
     }
 
     return (
-        <div className="flex flex-col items-center mr-6">
+        <div className="flex flex-col items-center">
             <button onClick={() => handleClick('upvote')} disabled={hasUserDownvoted}>
                 <ArrowUpIcon className={`h-6 w-6 ${hasUserUpvoted ? 'text-red-500': 'text-slate-400'}`}/>
             </button>

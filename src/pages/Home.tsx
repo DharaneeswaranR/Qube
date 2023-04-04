@@ -44,9 +44,8 @@ export default function Home() {
     }
 
     return (
-        <div className="bg-white-blue text-slate-600 dark:bg-slate-900 dark:text-white h-full">
+        <div className="text-slate-600 dark:bg-slate-900 dark:text-white h-full">
             <div className="w-3/4 lg:w-[700px] pt-10 mx-auto">
-                <h1 className="text-2xl font-semibold">Recent Posts</h1>
                 {postField ? (
                     <div className="flex flex-col">
                         <div className="flex justify-between">
