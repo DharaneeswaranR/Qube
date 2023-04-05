@@ -34,6 +34,7 @@ export default function Home() {
         await addDoc(postRef, {
             title: post.title,
             desc: post.desc,
+            uid: user?.uid,
             author: {
                 name: user?.displayName,
                 profileImg: user?.photoURL

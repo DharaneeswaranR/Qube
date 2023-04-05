@@ -6,12 +6,16 @@ import Error from "../components/Error"
 import Loading from "../components/Loading"
 import VoteButtons from "../components/VoteButtons"
 import { db, auth } from "../firebase/firebase"
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import checkProfanity from "../utils/checkProfanity"
+import isUserBanned from "../utils/isUserBanned"
+import { PencilSquareIcon } from "@heroicons/react/24/outline"
 
 
 function PostPage() {
     const { id } = useParams()
     const [answer, setAnswer] = useState("")
+    const [isBanned, setIsBanned] = useState(false)
     const [post, loading, error] = useDocument(doc(db, "/posts", `${id}`), {
         snapshotListenOptions: { includeMetadataChanges: true },
     })
@@ -20,10 +24,23 @@ function PostPage() {
         snapshotListenOptions: { includeMetadataChanges: true },
     })
 
+    useEffect(() => {
+        async function setBanned() {
+            setIsBanned(await isUserBanned())
+        }
+
+        setBanned()
+    }, [])
+
     async function postAnswer() {
+        if (await checkProfanity(answer)) {
+            return setIsBanned(true)
+        }
+
         await addDoc(collection(db, 'answers'), {
             text: answer,
             postId: id,
+            uid: auth.currentUser?.uid,
             author: {
                 name: auth.currentUser?.displayName,
                 profileImg: auth.currentUser?.photoURL
@@ -62,20 +79,27 @@ function PostPage() {
                     </div>
                     <p className="mb-5 leading-6 text-slate-500 dark:text-slate-50">{post?.data()?.desc}</p>
                     <hr />
-                    <div className="mt-3">
-                        <textarea
-                            value={answer}
-                            onChange={(event) => setAnswer(event.target.value)}
-                            className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-50 rounded-md p-2" 
-                            placeholder="Answer"
-                        />
-                        <button 
-                            className="bg-blue-500 disabled:bg-blue-300 transition text-white px-2 py-1 rounded-md" 
-                            disabled={!answer}
-                            onClick={postAnswer}
-                        >Answer
-                        </button>
-                    </div>
+                    {isBanned ? 
+                        <div className="mt-3 p-3 bg-red-500">
+                            <p className="text-white">You have been banned from creating posts.</p>
+                        </div>
+                        :
+                        <div className="mt-3">
+                            <textarea
+                                value={answer}
+                                onChange={(event) => setAnswer(event.target.value)}
+                                className="w-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white-gray rounded-md p-2" 
+                                placeholder="Answer"
+                            />
+                            <button 
+                                className="bg-blue-500 disabled:bg-blue-300 transition text-white px-2 py-1 mt-2 rounded-md" 
+                                disabled={!answer}
+                                onClick={postAnswer}
+                            >
+                                Post Answer
+                            </button>
+                       </div>
+                    }
                     <div className="pt-4 flex flex-col gap-3">
                         {answers?.docs.map(answer => <Answer key={answer.id} id={answer.id} data={answer.data()} />)}
                     </div>

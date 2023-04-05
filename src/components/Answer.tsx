@@ -9,7 +9,7 @@ export default function Answer({ id, data }: Answer) {
     const { text, author, upVotesUsers, downVotesUsers } = data
     
     return (
-        <section className="flex flex-col px-6 py-4 bg-slate-50 dark:bg-slate-800 rounded-md">
+        <section className="flex flex-col px-6 py-4 bg-white-gray dark:bg-slate-800 rounded-md">
             <div className="flex items-center">
                 <img className="w-6 mr-3 rounded-full" width="6px" height="6px" src={author.profileImg} alt="profile image" />
                 <p className="text-md font-medium text-blue-600">{author.name}</p>

@@ -1,7 +1,8 @@
-import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline"
-import { DocumentData } from "firebase/firestore"
+import { ChatBubbleLeftIcon, TrashIcon } from "@heroicons/react/24/outline"
+import { DocumentData, deleteDoc, doc } from "firebase/firestore"
 import { Link } from "react-router-dom"
 import VoteButtons from "./VoteButtons"
+import { auth, db } from "../firebase/firebase"
 
 interface Post {
     id: string,
@@ -9,7 +10,12 @@ interface Post {
 }
 
 export function Post({ id, data }: Post) {
-    const { title, desc, author, upVotesUsers, downVotesUsers } = data
+    const { title, desc, uid, author, upVotesUsers, downVotesUsers } = data
+    const user = auth.currentUser
+
+    async function deletePost() {
+        await deleteDoc(doc(db, 'posts', id))
+    }
 
     return (
         <section className="flex px-10 py-6 shadow-xl bg-white dark:bg-slate-800 shadow-slate-100 dark:shadow-none rounded-md">
@@ -30,8 +36,13 @@ export function Post({ id, data }: Post) {
                 <div className="pt-4">
                     <div className="flex items-center text-xs">
                         <img className="w-7 mr-3 rounded-full" width="12px" height="12px" src={author.profileImg} alt="profile image" />
-                        <p className="font-medium text-slate-500">Posted by <span className="text-blue-600">{author.name}</span></p>
-                        <Link className="ml-auto" to={`/post/${id}`} >
+                        <p className="font-medium mr-auto text-slate-500">Posted by <span className="text-blue-600">{user?.uid === uid ? "You" : author.name}</span></p>
+                        {user?.uid === uid &&
+                            <button className="mr-2" onClick={deletePost}>
+                                <TrashIcon className="h-5 text-slate-500" />
+                            </button>
+                        } 
+                        <Link to={`/post/${id}`} >
                             <ChatBubbleLeftIcon className="h-5 w-5 text-slate-500" />
                         </Link>
                     </div>
