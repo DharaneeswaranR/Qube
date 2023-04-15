@@ -5,6 +5,7 @@ import AuthRequired from './components/AuthRequired'
 import Layout from "./components/Layout"
 import Profile from "./pages/Profile"
 import PostPage from "./pages/PostPage";
+import Create from "./pages/Create";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
             <Route element={<Layout />}>
                 <Route element={<AuthRequired />} >
                     <Route path='/' element={<Home />} />
+                    <Route path='/create' element={<Create />} />
                     <Route path='/profile' element={<Profile />} />
                     <Route path='/post/:id' element={<PostPage />} />
                 </Route>

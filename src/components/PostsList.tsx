@@ -7,7 +7,7 @@ interface PostsProps {
 
 export function PostsList({ posts }: PostsProps) {
     return (
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col mt-10 gap-5">
             {posts?.docs.map(post => {
                 return (
                     <Post

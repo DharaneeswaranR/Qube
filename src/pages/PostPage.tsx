@@ -9,8 +9,6 @@ import { db, auth } from "../firebase/firebase"
 import { useEffect, useState } from "react"
 import checkProfanity from "../utils/checkProfanity"
 import isUserBanned from "../utils/isUserBanned"
-import { PencilSquareIcon } from "@heroicons/react/24/outline"
-
 
 function PostPage() {
     const { id } = useParams()
@@ -20,7 +18,7 @@ function PostPage() {
         snapshotListenOptions: { includeMetadataChanges: true },
     })
 
-    const [answers, loadingAnswer, AnswerError] = useCollection(query(collection(db, 'answers'), where("postId", "==", id)), {
+    const [answers] = useCollection(query(collection(db, 'answers'), where("postId", "==", id)), {
         snapshotListenOptions: { includeMetadataChanges: true },
     })
 
