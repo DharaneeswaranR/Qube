@@ -38,11 +38,11 @@ export function Post({ id, data }: Post) {
                         <img className="w-7 mr-3 rounded-full" width="12px" height="12px" src={author.profileImg} alt="profile image" />
                         <p className="font-medium mr-auto text-slate-500">Posted by <span className="text-blue-600">{user?.uid === uid ? "You" : author.name}</span></p>
                         {user?.uid === uid &&
-                            <button className="mr-2" onClick={deletePost}>
+                            <button className="mr-2" onClick={deletePost} aria-label="delete">
                                 <TrashIcon className="h-5 text-slate-500" />
                             </button>
                         } 
-                        <Link to={`/post/${id}`} >
+                        <Link aria-label="answers" to={`/post/${id}`} >
                             <ChatBubbleLeftIcon className="h-5 w-5 text-slate-500" />
                         </Link>
                     </div>

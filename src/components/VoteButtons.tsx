@@ -41,13 +41,13 @@ export default function VoteButtons(props: VoteProps) {
 
     return (
         <div className="flex flex-col items-center">
-            <button onClick={() => handleClick('upvote')} disabled={hasUserDownvoted}>
+            <button onClick={() => handleClick('upvote')} disabled={hasUserDownvoted} aria-label="upvote">
                 <ArrowUpIcon className={`h-6 w-6 ${hasUserUpvoted ? 'text-red-500': 'text-slate-400'}`}/>
             </button>
             <p className={` font-medium ${hasUserUpvoted || hasUserDownvoted ? (hasUserUpvoted ? 'text-red-500': 'text-blue-500'): 'text-slate-400'}`}>
                 {voteCount}
             </p>
-            <button onClick={() => handleClick('downvote')} disabled={hasUserUpvoted}>
+            <button onClick={() => handleClick('downvote')} disabled={hasUserUpvoted} aria-label="downvote">
                 <ArrowDownIcon className={`h-6 w-6 ${hasUserDownvoted ? 'text-blue-500': 'text-slate-400'}`}/>
             </button>
         </div>
