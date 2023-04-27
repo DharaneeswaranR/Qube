@@ -40,7 +40,7 @@ export default function Create() {
     }
 
     async function createPost() {
-        if (await checkProfanity(post.title) || await checkProfanity(post.desc)) {
+        if (await checkProfanity(post.title + post.title)) {
             return setIsBanned(true)
         }
         
@@ -64,11 +64,11 @@ export default function Create() {
         <div className="text-slate-600 dark:bg-slate-900 dark:text-white h-full">
             <div className="w-3/4 lg:w-[700px] pt-10 mx-auto">
                 <h1 className="text-xl font-semibold mb-2">Create new post</h1>
-                {isBanned ? 
+                {isBanned ? (
                     <div className="mt-3 p-3 bg-red-500">
                         <p className="text-white">You have been banned from creating posts.</p>
                     </div>
-                    :
+                ) : (
                     <div className="flex flex-col shadow-xl shadow-slate-100 p-6">
                         <label htmlFor="title-input" className="mb-1">Title</label>
                         <input 
@@ -98,7 +98,7 @@ export default function Create() {
                                 disabled={!post.title}
                                 onClick={createPost}
                             >
-                                Post Answer
+                                Post Question
                             </button>
                             <button 
                                 className=" bg-white-gray transition px-2 py-1 w-fit rounded-md"
@@ -108,7 +108,7 @@ export default function Create() {
                             </button>
                         </div>
                     </div>
-                }
+                )}
             </div>
         </div>
     )
