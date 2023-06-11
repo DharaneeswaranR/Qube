@@ -18,7 +18,7 @@ export function Post({ id, data }: Post) {
     }
 
     return (
-        <section className="flex px-10 py-6 shadow-lg bg-white dark:bg-slate-800 shadow-slate-100 dark:shadow-none rounded-md">
+        <section className="flex border border-blue-200 px-10 py-6 shadow-lg bg-white dark:bg-slate-800 shadow-slate-100 dark:shadow-none rounded-md">
             <div className="flex flex-col items-center mr-6">
                 <VoteButtons 
                     id={id}

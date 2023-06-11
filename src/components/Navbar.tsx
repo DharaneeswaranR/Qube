@@ -3,7 +3,7 @@ import { auth } from "../firebase/firebase"
 import { useAuthState } from "react-firebase-hooks/auth"
 
 export default function Navbar() {
-    const [user] = useAuthState(auth)
+    const [user, loading] = useAuthState(auth)
 
     return (
         <header>
@@ -12,13 +12,17 @@ export default function Navbar() {
                     Qube
                 </Link>
                 <Link to="/profile">
-                    <img
-                        className="w-8 rounded-full"
-                        width="12px"
-                        height="12px"
-                        src={user?.photoURL!}
-                        alt="profile image"
-                    />
+                    {loading ? (
+                        <div className="w-8 h-8 rounded-full animate-pulse bg-slate-100"></div> 
+                    ) : (
+                        <img
+                            className="w-8 rounded-full"
+                            width="12px"
+                            height="12px"
+                            src={user?.photoURL!}
+                            alt="profile image"
+                        />
+                    )}
                 </Link>
             </nav>
         </header>

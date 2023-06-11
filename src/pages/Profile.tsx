@@ -6,7 +6,7 @@ export default function Profile() {
     const [user] = useAuthState(auth)
 
     return (
-        <div className="w-3/4 lg:w-[700px] pt-10 mx-auto">
+        <div className="w-3/4 lg:w-[700px] pt-10 mx-auto h-3/4">
             <div className="flex flex-col items-center mt-36 text-slate-700">
                 <img 
                     src={user?.photoURL!} 
